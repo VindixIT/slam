@@ -1,0 +1,44 @@
+{{define "List-Users"}}
+<!-- List Users -->
+<div id="main" class="w3-row-padding">
+		<header class="w3-container w3-center w3-teal">
+		    <div class="aria">
+				<div style="margin-top: 6px;text-align: left;z-index:1">
+		    		<a style="font-size:28px;cursor:pointer" onclick="navGadget()">
+						&#9776; {{.AppName}}
+		    		</a>
+				</div>
+				    <h3>{{.Title}}</h3>
+				<div style="margin-top: 10px;">
+                    <span style="position:absolute; top:34px; right:120px"></span>
+				    <a style="margin-top: 6px" href="#" onclick="document.getElementById('create-form').style.display='block'">
+						<span class="icon ion-ios-plus-outline w3-xxlarge hoverbtn"></span>
+					</a>
+				    <a style="margin-top: 6px" href="/logout">
+						<span class="icon ion-log-out w3-xxlarge hoverbtn"></span>
+					</a>
+				</div>
+		    </div>
+		</header>
+        <table class="w3-table w3-centered w3-border w3-bordered w3-hoverable">
+            <tr>
+                <td>Ord</td>
+                <td>Id</td>
+                <td>Nome</td>
+				<td>Ações</td>
+            </tr>
+            {{range $index, $user := .Users}}
+            <tr>
+                <td>#{{$user.Order}}</td>
+                <td>{{$user.Id}}</td>
+                <td>{{$user.Name}}</td>
+                <td>
+                    <button class="w3-btn w3-teal" onclick="editUser(this);">Editar</button>
+                    <button class="w3-btn w3-red" onclick="deleteUser(this)">Apagar</button>
+                </td>
+            </tr>
+            {{end}}
+        </table>
+    </div>
+</div>
+{{end}}
