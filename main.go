@@ -24,8 +24,8 @@ func main() {
 	// ----------------- USERS
 	r.HandleFunc(routes.UsersRoute, hd.ListUsersHandler).Methods("GET")
 	r.HandleFunc("/createUser", hd.CreateUserHandler).Methods("POST")
-	r.HandleFunc("/updateUser", hd.UpdateUserHandler).Methods("PUT")
-	r.HandleFunc("/deleteUser", hd.DeleteUserHandler).Methods("DELETE")
+	r.HandleFunc("/updateUser", hd.UpdateUserHandler).Methods("POST")
+	r.HandleFunc("/deleteUser", hd.DeleteUserHandler).Methods("POST")
 
 	http.Handle("/", r)
 	http.Handle("/statics/",

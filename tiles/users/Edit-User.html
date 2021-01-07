@@ -9,11 +9,40 @@
                 <span class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright"
                       onclick="document.getElementById('edit-form').style.display='none'">&times;</span>
             </div>
-            <form class="w3-container" action="/updateUser" method="post" id="formulario-user-edit">
-                <input type="hidden" name="Id" id="UserIdForUpdate">
-                <label class="w3-label">Nome</label>
-                <input class="w3-input" type="text" id="UserNameForUpdate" name="Name" value="">
-				<button class="w3-btn w3-teal w3-margin-top w3-margin-bottom w3-right" type="submit">Salvar</button>
+
+            <form class="w3-container" action="/updateUser" method="POST">
+                <input type="hidden" name="Id" id="userIdToUpdate">
+				<label class="w3-label">Nome</label>
+                <input class="w3-input" type="text" name="Name" id="userName" value="">
+                <label class="w3-label">Usuário</label>
+                <input class="w3-input" type="text" name="Username" id="userUsername" value="">
+                <label class="w3-label">E-mail</label>
+                <input class="w3-input" type="text" name="Email" id="userEmail" value="">
+                <label class="w3-label">Celular</label>
+                <input class="w3-input" type="text" name="Mobile" id="userMobile" value="">
+                <label class="w3-label">Quantidade de Atendimentos</label>
+                <input class="w3-input" type="number" id="userQtdAtendimentos" name="QtdAtendimentos" value="">
+                <label class="w3-label">Tipo de Especialidade</label>
+	            <select class="w3-input" id="userTipoEspecialidade" name="TipoEspecialidade">
+					<option value=""></option>
+					<option value="Clínico Geral">Clínico Geral</option>
+					<option value="Pediatra">Pediatra</option>
+					<option value="Ginecologista">Ginecologista</option>
+					<option value="Ortopedista">Ortopedista</option>
+	            </select>
+                <label class="w3-label">Outra Especialidade</label>
+                <input class="w3-input" type="text" id="userOutraEspecialidade" name="OutraEspecialidade" value="">
+				<label class="w3-label">Perfil</label>
+	            <select class="w3-input" name="RoleForUpdate" id="RoleForUpdate">
+					<option value=""></option>
+					{{range $index, $role := .Roles }}
+	                <option value="{{$role.Id}}">
+						{{$role.Name}}
+					</option>
+		            {{end}}
+	            </select>
+				<br>
+                <button class="w3-btn w3-teal w3-margin-top w3-margin-bottom w3-right" type="submit">Salvar</button>
             </form>
         </div>
     </div>

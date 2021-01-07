@@ -1,17 +1,23 @@
 function editUser(e) {
 	var editForm = document.getElementById('edit-form');
 	editForm.style.display = 'block';
+	var tipoEspecialidade = e.parentNode.parentNode.childNodes[1].childNodes[1].value;
+	var outraEspecialidade = e.parentNode.parentNode.childNodes[1].childNodes[3].value;
+	var qtdAtendimentos = e.parentNode.parentNode.childNodes[1].childNodes[5].value;
 	var userId = e.parentNode.parentNode.childNodes[3].innerText;
 	var userName = e.parentNode.parentNode.childNodes[5].innerText;
 	var userUsername = e.parentNode.parentNode.childNodes[7].innerText;
 	var userEmail = e.parentNode.parentNode.childNodes[9].innerText;
 	var userMobile = e.parentNode.parentNode.childNodes[11].innerText;
-	var userRole = e.parentNode.parentNode.childNodes[15].childNodes[1].value;
+	var userRole = e.parentNode.parentNode.childNodes[13].childNodes[1].value;
 	document.getElementById('userIdToUpdate').value = userId;
 	document.getElementById('userName').value = userName;
 	document.getElementById('userUsername').value = userUsername;
 	document.getElementById('userEmail').value = userEmail;
 	document.getElementById('userMobile').value = userMobile;
+	document.getElementById('userTipoEspecialidade').value = tipoEspecialidade;
+	document.getElementById('userOutraEspecialidade').value = outraEspecialidade;
+	document.getElementById('userQtdAtendimentos').value = qtdAtendimentos;
 	document.getElementById('RoleForUpdate').value = userRole;
 	document.getElementById('userName').focus();
 }

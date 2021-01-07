@@ -58,7 +58,11 @@
             <tbody>
             {{range $index, $user := .Users }}
             <tr>
-                <td style="vertical-align:middle">#{{$user.Order}}</td>
+                <td style="vertical-align:middle">
+					<input type="hidden" value="{{$user.TipoEspecialidade}}">
+					<input type="hidden" value="{{$user.OutraEspecialidade}}">
+					<input type="hidden" value="{{$user.QtdAtendimentos}}">
+					#{{$user.Order}}</td>
                 <td style="vertical-align:middle">{{$user.Id}}</td>
                 <td style="vertical-align:middle;text-align:left">{{$user.Name}}</td>
                 <td style="vertical-align:middle;text-align:left">{{$user.Username}}</td>

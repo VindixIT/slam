@@ -9,13 +9,14 @@ import (
 	route "slam/routes"
 	sec "slam/security"
 	"strconv"
+	"strings"
 	"time"
 )
 
 func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
-	sec.IsAuthenticated(w, r)
 	log.Println("Create User")
-	if r.Method == "POST" {
+	log.Println(r.Method)
+	if r.Method == "POST" && sec.IsAuthenticated(w, r) {
 		currentUser := GetUserInCookie(w, r)
 		name := r.FormValue("name")
 		username := r.FormValue("username")
@@ -50,10 +51,57 @@ func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
 
 func UpdateUserHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("Update User")
+	log.Println(r.Method)
+	if r.Method == "POST" && sec.IsAuthenticated(w, r) {
+		id := r.FormValue("Id")
+		name := r.FormValue("Name")
+		username := r.FormValue("Username")
+		email := r.FormValue("Email")
+		mobile := r.FormValue("Mobile")
+		tipoEspecialidade := r.FormValue("TipoEspecialidade")
+		outraEspecialidade := r.FormValue("OutraEspecialidade")
+		qtdAtendimentos := r.FormValue("QtdAtendimentos")
+		role := r.FormValue("RoleForUpdate")
+		log.Println("Role: " + role)
+		sqlStatement := " UPDATE Users SET name=$1, " +
+			" username=$2, email=$3, mobile=$4, role_id=$5, tip_especialidade = $6, outra_especialidade = $7, qtd_atendimentos = $8 " +
+			" WHERE id=$9 "
+		log.Println(sqlStatement)
+		updtForm, err := Db.Prepare(sqlStatement)
+		if err != nil {
+			log.Println(err.Error())
+		}
+		updtForm.Exec(name, username, email, mobile, role, tipoEspecialidade, outraEspecialidade, qtdAtendimentos, id)
+		log.Println("UPDATE: Id: " +
+			id + " | Name: " +
+			name + " | Username: " +
+			username + " | E-mail: " +
+			email + " | Mobile: " +
+			mobile + " | Role: " +
+			role)
+		http.Redirect(w, r, route.UsersRoute+"?msg=Usuário atualizado com sucesso.", 301)
+	} else {
+		http.Redirect(w, r, "/logout", 301)
+	}
 }
 
 func DeleteUserHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("Delete User")
+	log.Println(r.Method)
+	if r.Method == "POST" && sec.IsAuthenticated(w, r) {
+		errMsg := "Usuário vinculado a registro não pode ser removido."
+		id := r.FormValue("Id")
+		sqlStatement := "DELETE FROM Users WHERE id=$1"
+		deleteForm, _ := Db.Prepare(sqlStatement)
+		_, err := deleteForm.Exec(id)
+		if err != nil && strings.Contains(err.Error(), "violates foreign key") {
+			http.Redirect(w, r, route.UsersRoute+"?errMsg="+errMsg, 301)
+		} else {
+			http.Redirect(w, r, route.UsersRoute+"?msg=Usuário removido com sucesso.", 301)
+		}
+	} else {
+		http.Redirect(w, r, "/logout", 301)
+	}
 }
 
 func ListUsersHandler(w http.ResponseWriter, r *http.Request) {
@@ -64,7 +112,9 @@ func ListUsersHandler(w http.ResponseWriter, r *http.Request) {
 		errMsg := r.FormValue("errMsg")
 		sql := "SELECT " +
 			" a.id, a.name, a.username, a.password, " +
-			" a.email, a.mobile, COALESCE(a.role_id, 0), COALESCE(b.name,'') as role_name, " +
+			" a.email, a.mobile, " +
+			" a.tip_especialidade, a.outra_especialidade, a.qtd_atendimentos, " +
+			" COALESCE(a.role_id, 0), COALESCE(b.name,'') as role_name, " +
 			" a.author_id, " +
 			" e.name as author_name, " +
 			" to_char(a.criado_em,'DD/MM/YYYY HH24:MI:SS'), " +
@@ -89,6 +139,9 @@ func ListUsersHandler(w http.ResponseWriter, r *http.Request) {
 				&user.Password,
 				&user.Email,
 				&user.Mobile,
+				&user.TipoEspecialidade,
+				&user.OutraEspecialidade,
+				&user.QtdAtendimentos,
 				&user.Role,
 				&user.RoleName,
 				&user.AuthorId,
