@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	mdl "slam/models"
+	route "slam/routes"
 	sec "slam/security"
 	"strconv"
 	"time"
@@ -36,14 +37,13 @@ func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
 			if role == "" {
 				errMsg = errMsg + " Faltou informar o Perfil do Usuário."
 			}
-			w.WriteHeader(http.StatusExpectationFailed)
-			w.Write([]byte("Erro ao criar Usuário."))
+			http.Redirect(w, r, route.UsersRoute+"?errMsg="+errMsg, 301)
 		} else {
 			log.Println("INSERT: Id: " + strconv.Itoa(id) +
 				" | Name: " + name + " | Username: " + username +
 				" | Password: " + password + " | Email: " + email +
 				" | Mobile: " + mobile + " | Role: " + role)
-			w.Write([]byte("Usuário criado com sucesso."))
+			http.Redirect(w, r, route.UsersRoute+"?msg=Usuário criado com sucesso.", 301)
 		}
 	}
 }

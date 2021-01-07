@@ -9,8 +9,7 @@
                 <span class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright"
                       onclick="document.getElementById('create-form').style.display='none'">&times;</span>
             </div>
-
-            <form class="w3-container">
+            <form class="w3-container" action="/createUser" method="post">
                 <label class="w3-label">Nome</label>
                 <input class="w3-input" type="text" id="NameUserForInsert" name="Name" value="">
                 <label class="w3-label">Usuário</label>
@@ -27,6 +26,7 @@
                 <input class="w3-input" type="number" id="QtdAtendimentos" name="QtdAtendimentos" value="">
                 <label class="w3-label">Tipo de Especialidade</label>
 	            <select class="w3-input" id="TipEspecialidade" name="TipEspecialidade">
+					<option value=""></option>
 					<option value="Clínico Geral">Clínico Geral</option>
 					<option value="Pediatra">Pediatra</option>
 					<option value="Ginecologista">Ginecologista</option>
@@ -35,7 +35,7 @@
                 <label class="w3-label">Outra Especialidade</label>
                 <input class="w3-input" type="text" id="OutraEspecialidade" name="OutraEspecialidade" value="">
 				<label class="w3-label">Perfil</label>
-	            <select class="w3-input" id="RoleForInsert" name="RoleForInsert">
+	            <select class="w3-input" id="RoleForInsert" name="Role">
 					<option value=""></option>
 					{{range $index, $role := .Roles }}
 		                <option value="{{$role.Id}}" {{if eq true $role.Selected}} selected="selected"{{end}}>
@@ -44,10 +44,7 @@
 		            {{end}}
 	            </select>
 				<br>
-                <button 
-					class="w3-btn w3-teal w3-margin-top w3-margin-bottom w3-right"
-					onclick="createUser()"
-					type="button">Criar</button>
+				<button class="w3-btn w3-teal w3-margin-top w3-margin-bottom w3-right" type="submit">Criar</button>
             </form>
         </div>
     </div>

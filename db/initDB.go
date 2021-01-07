@@ -200,7 +200,7 @@ func createTable() {
 		" qtd_atendimentos int," +
 		" tip_especialidade character varying(50)," +
 		" outra_especialidade character varying(50)," +
-		" author_id character varying(50)," +
+		" author_id integer," +
 		" criado_em timestamp without time zone," +
 		" id_versao_origem integer," +
 		" status_id integer)"
