@@ -30,13 +30,31 @@ type LoggedUser struct {
 	HasPermission func(string) bool
 }
 
-type PageUser struct {
-	WarnMsg string
-	ErrMsg  string
-	Msg     string
-	AppName string
-	Title   string
-	Users   []User
+type PageUsers struct {
+	WarnMsg    string
+	ErrMsg     string
+	Msg        string
+	AppName    string
+	Title      string
+	LoggedUser LoggedUser
+	Users      []User
+	Roles      []Role
+}
+
+type Role struct {
+	Order          int
+	Id             int64  `json:"id"`
+	Name           string `json:"name"`
+	Description    string `json:"description"`
+	AuthorId       int64  `json:"autorId"`
+	AuthorName     string `json:"autorNome"`
+	CreatedAt      string `json:"createdAt"`
+	C_CreatedAt    string `json:"c_createdAt"`
+	IdVersaoOrigem int64  `json:"idVersaoOrigem"`
+	StatusId       int64  `json:"statusId"`
+	CStatus        string `json:"cStatus"`
+	Selected       bool
+	Features       []Feature
 }
 
 type User struct {
